@@ -1,0 +1,4 @@
+month,claims,fraud_in_month,reviews,fraud_found_top40,precision_top40,random_expected_fraud_in_40,fraud_claim_value_found_inr,false_positive_reviews
+2026-04,709,9,40,3,0.075,0.5077574047954866,17060.0,37
+2026-05,709,14,40,0,0.0,0.7898448519040903,0.0,40
+2026-06,713,22,40,1,0.025,1.2342215988779803,1978.0,39

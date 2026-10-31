@@ -1,0 +1,66 @@
+{
+  "validation_period_start": "2026-04-01",
+  "validation_period_end": "2026-06-30",
+  "validation_rows": 2131,
+  "validation_fraud": 45,
+  "validation_fraud_rate": 0.02111684655091506,
+  "roc_auc": 0.6680781932459784,
+  "average_precision_pr_auc": 0.07085307526525321,
+  "brier_score": 0.021454694816574558,
+  "accuracy_at_0_5": 0.9770061004223369,
+  "majority_class_baseline_accuracy": 0.9788831534490849,
+  "precision_at_0_5": 0.3,
+  "recall_at_0_5": 0.06666666666666667,
+  "confusion_matrix_labels_0_1": [
+    [
+      2079,
+      7
+    ],
+    [
+      42,
+      3
+    ]
+  ],
+  "best_iteration": 84,
+  "review_capacity_per_month": 40,
+  "monthly_top40_backtest": [
+    {
+      "month": "2026-04",
+      "claims": 709,
+      "fraud_in_month": 9,
+      "reviews": 40,
+      "fraud_found_top40": 3,
+      "precision_top40": 0.075,
+      "random_expected_fraud_in_40": 0.5077574047954866,
+      "fraud_claim_value_found_inr": 17060.0,
+      "false_positive_reviews": 37
+    },
+    {
+      "month": "2026-05",
+      "claims": 709,
+      "fraud_in_month": 14,
+      "reviews": 40,
+      "fraud_found_top40": 0,
+      "precision_top40": 0.0,
+      "random_expected_fraud_in_40": 0.7898448519040903,
+      "fraud_claim_value_found_inr": 0.0,
+      "false_positive_reviews": 40
+    },
+    {
+      "month": "2026-06",
+      "claims": 713,
+      "fraud_in_month": 22,
+      "reviews": 40,
+      "fraud_found_top40": 1,
+      "precision_top40": 0.025,
+      "random_expected_fraud_in_40": 1.2342215988779803,
+      "fraud_claim_value_found_inr": 1978.0,
+      "false_positive_reviews": 39
+    }
+  ],
+  "total_top40_reviews": 120,
+  "fraud_found_top40_total": 4,
+  "fraud_claim_value_found_inr_total": 19038.0,
+  "false_positive_reviews_total": 116,
+  "top40_precision_overall": 0.03333333333333333
+}

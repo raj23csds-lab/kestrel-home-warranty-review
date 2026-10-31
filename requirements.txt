@@ -1,0 +1,7 @@
+catboost==1.2.8
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+pandas==2.2.3
+numpy==2.2.6
+scikit-learn==1.6.1
+pytest==8.3.5

@@ -1,0 +1,6 @@
+Local smoke test completed in the build environment:
+- `pytest -q`: 1 passed.
+- `GET /health`: HTTP 200; status=ok.
+- `POST /predict` with a valid sample record: HTTP 200; response included claim_id, score, score interpretation, calibrated-probability flag, recommendation, reasons and model version.
+- `predictions.csv`: 2,252 rows, 2 columns (`claim_id`, `score`), 2,252 unique claim IDs, 0 missing scores.
+The screen recording is not included; the submitter must record the running app using `recording_script.md`.

@@ -1,0 +1,80 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kestrel Home | Claim Review</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#172033;background:#f4f6fa}
+*{box-sizing:border-box}body{margin:0}.shell{max-width:1120px;margin:0 auto;padding:28px 18px 56px}
+header{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:24px}
+.brand{font-weight:800;letter-spacing:.02em}.sub{color:#657089;font-size:13px;margin-top:4px}
+.pill{background:#e8edf7;border-radius:30px;padding:8px 12px;font-size:12px;color:#43516c}
+h1{font-size:28px;margin:8px 0}.intro{color:#5f6b80;line-height:1.5;max-width:760px}
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:22px}
+.panel{background:white;border:1px solid #e3e8f0;border-radius:16px;padding:22px;box-shadow:0 5px 18px #18243a0a}
+h2{font-size:17px;margin:0 0 16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+label{font-size:12px;font-weight:650;color:#4b5870;display:block;margin-bottom:6px}
+input,select,textarea{width:100%;border:1px solid #d7deea;border-radius:9px;padding:10px 11px;font:inherit;font-size:13px;background:#fff;color:#172033}
+textarea{min-height:70px;resize:vertical}.full{grid-column:1/-1}
+button{border:0;border-radius:10px;padding:12px 17px;background:#1e365d;color:white;font-weight:700;cursor:pointer;margin-top:16px}
+button:disabled{opacity:.6;cursor:wait}.muted{font-size:12px;color:#78849a;line-height:1.45}
+.score{font-size:44px;font-weight:800;letter-spacing:-.04em;margin:10px 0 2px}.band{display:inline-block;border-radius:7px;padding:6px 9px;background:#eef2f8;font-size:12px;font-weight:700}
+.reason{padding:10px 0;border-bottom:1px solid #edf0f5;font-size:13px;line-height:1.45}.reason:last-child{border:0}
+.result-empty{color:#7b879b;padding:30px 4px;line-height:1.6}.warning{background:#fff7e8;border:1px solid #f4dfb8;color:#74531d;padding:12px;border-radius:10px;font-size:12px;line-height:1.5;margin-top:14px}
+.error{color:#a12424;font-size:13px;margin-top:10px}.topline{display:flex;align-items:center;justify-content:space-between}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.fields{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.fields{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body><div class="shell">
+<header><div><div class="brand">KESTREL HOME <span style="color:#8792a5">/ OPERATIONS</span></div><div class="sub">Warranty claim review · Variant C</div></div><div class="pill" id="apiStatus">Checking local model…</div></header>
+<h1>Claim risk review</h1>
+<p class="intro">Score a single warranty claim and inspect the operational signals behind it. The score is a prioritisation aid for trained reviewers—not a fraud verdict or an automatic payment decision.</p>
+<div class="layout">
+<section class="panel">
+<h2>Claim details</h2>
+<form id="claimForm"><div class="fields">
+<div><label>Claim ID</label><input name="claim_id" value="DEMO-10001" required></div>
+<div><label>Submitted at (IST)</label><input name="submitted_at" value="2026-09-18 11:30" required></div>
+<div><label>Partner ID</label><input name="partner_id" value="SP3095" required></div>
+<div><label>SKU</label><input name="sku" value="KH-AF-03" required></div>
+<div><label>Product serial</label><input name="product_serial" value="KH123456789" required></div>
+<div><label>Days since purchase</label><input name="days_since_purchase" type="number" value="260" required></div>
+<div><label>Claim amount (₹)</label><input name="claim_amount_inr" type="number" step="0.01" value="4200" required></div>
+<div><label>Customer prior claims</label><input name="customer_prior_claims" type="number" value="1" required></div>
+<div><label>Photo attached</label><select name="photo_attached"><option>Y</option><option>N</option></select></div>
+<div><label>Partner inspected</label><select name="partner_inspected"><option>Y</option><option>N</option></select></div>
+<div><label>Source system</label><select name="source"><option>crm</option><option>legacy_zoho</option></select></div>
+<div><label>Claim description</label><select name="claim_description"><option>unit not heating</option><option>water leaking</option><option>display not working</option><option>blade jammed</option><option>power button not working</option><option>loud noise while running</option><option>remote not working</option><option>burning smell</option><option>filter indicator stuck</option><option>tripping mcb</option><option>motor not running</option><option>not charging</option></select></div>
+<div class="full"><label>Inspector note (optional)</label><textarea name="inspector_note" placeholder="Leave blank if no inspection note is available"></textarea></div>
+</div><button id="submitBtn" type="submit">Score claim</button><div id="error" class="error"></div></form>
+<p class="muted">Demo values are editable. Use only authorised Kestrel data in a private environment.</p>
+</section>
+<section class="panel">
+<div class="topline"><h2>Model assessment</h2><span class="pill">Human review required</span></div>
+<div id="result" class="result-empty">Submit a claim to see its score and review signals.</div>
+<div class="warning">Capacity rule: the investigation desk can review at most 40 claims per month. Rank all claims in the month and select within capacity; this single-record screen does not reserve a review slot.</div>
+</section>
+</div>
+<p class="muted" style="margin-top:22px">Local service · No external model API · No data leaves this machine through this demo.</p>
+</div>
+<script>
+const form=document.getElementById('claimForm'), result=document.getElementById('result'), err=document.getElementById('error'), btn=document.getElementById('submitBtn');
+async function health(){try{let r=await fetch('/health');let j=await r.json();document.getElementById('apiStatus').textContent=j.status==='ok'?'Model ready':'Model unavailable'}catch(e){document.getElementById('apiStatus').textContent='API not connected'}}
+health();
+form.addEventListener('submit',async e=>{
+ e.preventDefault();err.textContent='';btn.disabled=true;btn.textContent='Scoring…';
+ const d=Object.fromEntries(new FormData(form).entries());
+ d.days_since_purchase=Number(d.days_since_purchase);d.claim_amount_inr=Number(d.claim_amount_inr);d.customer_prior_claims=Number(d.customer_prior_claims);
+ d.inspector_note=d.inspector_note.trim()?d.inspector_note.trim():null;
+ try{
+  const res=await fetch('/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+  const data=await res.json();if(!res.ok)throw new Error(data.detail||'Prediction failed');
+  const score=(data.score*100).toFixed(2);
+  result.innerHTML=`<div class="muted">MODEL RISK SCORE · NOT A CALIBRATED PROBABILITY</div><div class="score">${score}<span style="font-size:19px">/100</span></div><span class="band">${data.score_interpretation}</span><p style="font-size:13px;line-height:1.5;color:#5f6b80">${data.recommendation}</p><h3 style="font-size:14px;margin:22px 0 6px">Signals to check</h3><div>${data.reasons.map(x=>`<div class="reason">${escapeHtml(x)}</div>`).join('')}</div><p class="muted" style="margin-top:14px">Claim ${escapeHtml(data.claim_id)} · ${escapeHtml(data.model_version)}</p>`;
+ }catch(e){err.textContent=e.message}
+ finally{btn.disabled=false;btn.textContent='Score claim'}
+});
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+</script></body></html>
+
